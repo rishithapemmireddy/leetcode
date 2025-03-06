@@ -4,15 +4,16 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-        stack=[]
+        bracket_map = {')': '(', '}': '{', ']': '['}
+        stack = []
+    
         for char in s:
-            if char == '(':
-                stack.append(')')
-            elif char == '{':
-                stack.append('}')
-            elif char == '[':
-                stack.append(']')
-            elif not stack or stack.pop() != char:
-                return False
-        
-        return len(stack) == 0
+            if char in bracket_map:  # If it's a closing bracket
+                top_element = stack.pop() if stack else '#'
+                if bracket_map[char] != top_element:
+                    return False
+            else:  # If it's an opening bracket
+                stack.append(char)
+    
+    # If the stack is empty, all brackets are matched correctly
+        return not stack
